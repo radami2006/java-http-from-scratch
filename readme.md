@@ -12,3 +12,9 @@ These classes allow for the loading of settings for the HTTP server object from 
 The server listens on the configured port and serves a hardcoded response
 ## 3. HTTP Server multithreading
 The server creates a new thread for each connection and each processing.
+## 4. Simple HTTP request line parser
+The request is received by the server and the HTTP method and version are parsed and validated.
+## 5. Simple HTTP headers parser
+The headers are also parsed and validated.
+## 6. WIP: HTTP file serving
+The request is validated and parsed and the server sends a response to the client which contains the requested html file.
