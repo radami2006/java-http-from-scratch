@@ -1,4 +1,4 @@
 {
   "port": 8080,
-  "webroot": "C:\\Users\\danie\\Downloads\\simple-http-server\\WebRoot"
+  "webroot": "WebRoot"
 }

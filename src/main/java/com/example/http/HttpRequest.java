@@ -14,23 +14,18 @@ public class HttpRequest extends HttpMessage{
     public HttpMethod getMethod() {
         return method;
     }
-
     public String getRequestTarget() {
         return requestTarget;
     }
-
     public HttpVersion getBestCompatibleVersion() {
         return bestCompatibleVersion;
     }
-
     public String getOriginalHttpVersion() {
         return originalHttpVersion;
     }
-
     public Set<String> getHeadersNames() {
         return headers.keySet();
     }
-
     public String getHeader(String headerName) {
         return headers.get(headerName.toLowerCase());
     }
@@ -48,14 +43,12 @@ public class HttpRequest extends HttpMessage{
             }
         }
     }
-
     void setRequestTarget(String requestTarget) throws HttpParsingException {
         if (requestTarget == null || requestTarget.isEmpty()){
             throw new HttpParsingException(HttpStatusCodes.SERVER_ERROR_500_INTERNAL_SERVER_ERROR);
         }
         this.requestTarget = requestTarget;
     }
-
     public void setHttpVersion(String originalHttpVersion) throws BadHttpVersionException, HttpParsingException {
         this.originalHttpVersion = originalHttpVersion;
         this.bestCompatibleVersion = HttpVersion.getBestCompatibleVersion(originalHttpVersion);
@@ -65,7 +58,6 @@ public class HttpRequest extends HttpMessage{
             );
         }
     }
-
     void addHeader(String headerName, String headerField){
         headers.put(headerName.toLowerCase(), headerField);
     }
