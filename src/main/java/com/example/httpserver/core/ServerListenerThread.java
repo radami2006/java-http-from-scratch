@@ -1,5 +1,7 @@
 package com.example.httpserver.core;
 
+import com.example.httpserver.core.io.WebRootHandler;
+import com.example.httpserver.core.io.WebRootNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,9 +17,12 @@ public class ServerListenerThread extends Thread {
     private String webroot;
     private ServerSocket serverSocket;
 
-    public ServerListenerThread(int port, String webroot) throws IOException {
+    private WebRootHandler webRootHandler;
+
+    public ServerListenerThread(int port, String webroot) throws IOException, WebRootNotFoundException {
         this.port = port;
         this.webroot = webroot;
+        this.webRootHandler = new WebRootHandler(webroot);
         this.serverSocket = new ServerSocket(this.port);
     }
 
@@ -30,7 +35,7 @@ public class ServerListenerThread extends Thread {
 
                 LOGGER.info(" * Connection accepted: " + socket.getInetAddress());
 
-                HttpConnectionWorkerThread workerThread = new HttpConnectionWorkerThread(socket);
+                HttpConnectionWorkerThread workerThread = new HttpConnectionWorkerThread(socket, webRootHandler);
                 workerThread.start();
             }
         } catch (IOException e) {

@@ -34,7 +34,7 @@ public class HttpHeadersParseTest {
                 httpParser,
                 generateSimpleSingleHeaderMessage(),
                 request);
-        assertEquals(1, request.getHeadersNames().size());
+        assertEquals(1, request.getHeaderNames().size());
         assertEquals("localhost:8080", request.getHeader("host"));
     }
 
@@ -45,7 +45,7 @@ public class HttpHeadersParseTest {
                 httpParser,
                 generateMultipleHeadersMessage(),
                 request);
-        assertEquals(10, request.getHeadersNames().size());
+        assertEquals(10, request.getHeaderNames().size());
         assertEquals("localhost:8080", request.getHeader("host"));
     }
 
