@@ -1,8 +1,5 @@
 package com.example.http;
 
-import java.util.HashMap;
-import java.util.Set;
-
 public class HttpRequest extends HttpMessage{
 
     private HttpMethod method;

@@ -46,17 +46,40 @@ public class ConfigurationManager {
         try {
             conf = Json.parse(sb.toString());
         } catch (IOException e){
-            throw new HttpConfigurationException("Error parsing the configuration file", e);
+            if (fileReader != null) {
+            	try {
+    				fileReader.close();
+    			} catch (IOException ex) {
+    	            throw new HttpConfigurationException(ex);
+    			}
+            }            throw new HttpConfigurationException("Error parsing the configuration file", e);
         }
         try {
             myCurrentConfiguration = Json.fromJson(conf, Configuration.class);
         } catch (JsonProcessingException e){
+            if (fileReader != null) {
+            	try {
+    				fileReader.close();
+    			} catch (IOException ex) {
+    	            throw new HttpConfigurationException(ex);
+    			}
+            }
             throw new HttpConfigurationException("Error parsing the configuration file, internal", e);
+        }
+        
+        if (fileReader != null) {
+        	try {
+				fileReader.close();
+			} catch (IOException e) {
+	            throw new HttpConfigurationException(e);
+			}
         }
     }
 
     /**
-     * Returns the Current loaded Configuration
+     * getCurrentConfiguration()
+     * 
+     * @returns the Current loaded Configuration
      * */
     public Configuration getCurrentConfiguration() {
         if (myCurrentConfiguration == null){

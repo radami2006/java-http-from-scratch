@@ -26,12 +26,12 @@ public class HttpParser {
         try {
             parseRequestLine(reader, request);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e.toString());
         }
         try {
             parseHeaders(reader, request);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e.toString());
         }
         parseBody(reader, request);
 
@@ -49,7 +49,7 @@ public class HttpParser {
             if (_byte == CR) {
                 _byte = reader.read();
                 if (_byte == LF) {
-                    LOGGER.debug("Request Line VERSION to Process: {}", processingDataBuffer.toString());
+                    LOGGER.debug("Request Line VERSION to Process: {}", processingDataBuffer);
                     if (!methodParsed || !requestTargetParsed){
                         throw new HttpParsingException(HttpStatusCodes.CLIENT_ERROR_400_BAD_REQUEST);
                     }
@@ -67,11 +67,11 @@ public class HttpParser {
 
             if (_byte == SP){
                 if (!methodParsed) {
-                    LOGGER.debug("Request Line METHOD to Process: {}", processingDataBuffer.toString());
+                    LOGGER.debug("Request Line METHOD to Process: {}", processingDataBuffer);
                     request.setMethod(processingDataBuffer.toString());
                     methodParsed = true;
                 } else if (!requestTargetParsed) {
-                    LOGGER.debug("Request Line REQ TARGET to Process: {}", processingDataBuffer.toString());
+                    LOGGER.debug("Request Line REQ TARGET to Process: {}", processingDataBuffer);
                     request.setRequestTarget(processingDataBuffer.toString());
                     requestTargetParsed = true;
                 }
@@ -125,7 +125,7 @@ public class HttpParser {
 
     private void processingSingleHeaderField(StringBuilder processingDataBuffer, HttpRequest request) throws HttpParsingException {
         String rawHeaderField = processingDataBuffer.toString();
-        Pattern pattern = Pattern.compile("^(?<fieldName>[!#$%&’*+\\-./^_‘|˜\\dA-Za-z]+):\\s?(?<fieldValue>[!#$%&’*+\\-./^_‘|˜(),:;<=>?@[\\\\]{}\" \\dA-Za-z]+)\\s?$");
+        Pattern pattern = Pattern.compile("^(?<fieldName>[!#$%&’*+\\-./^_‘|˜\\dA-Za-z]+):\\s?(?<fieldValue>[!#$%&’*+\\-./^_‘|˜(),:;<=>?@\\\\{}\" \\dA-Za-z]+)\\s?$");
 
         Matcher matcher = pattern.matcher(rawHeaderField);
         if (matcher.matches()){
@@ -139,7 +139,9 @@ public class HttpParser {
     }
 
     private void parseBody(InputStreamReader reader, HttpRequest request) {
-
+        // TODO Implement body parsing
+        String temp = reader + " " + request;
+        LOGGER.info(temp);
     }
 
 }
